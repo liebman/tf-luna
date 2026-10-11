@@ -1,0 +1,50 @@
+[package]
+name = "tf-luna"
+version = "0.1.0"
+authors = ["Christopher B. Liebman <liebman@zod.com>"]
+edition = "2021"
+license = "MIT OR Apache-2.0"
+description = "A platform-agnostic driver for the TF-Luna LiDAR sensor"
+repository = "https://github.com/liebman/tf-luna"
+documentation = "https://docs.rs/tf-luna"
+keywords = ["embedded", "lidar", "tf-luna", "i2c", "no-std"]
+categories = ["embedded", "no-std", "hardware-support"]
+readme = "README.md"
+
+[dependencies]
+bitfield = { version = "0.19.0" }
+embedded-hal = {version = "1.0.0"}
+embedded-hal-async = {version = "1.0.0", optional = true}
+log = { version = "0.4.27", optional = true }
+defmt = { version = "1.0.1", optional = true }
+paste = { version = "1.0.15" }
+maybe-async-cfg = "0.2.5"
+cfg-if = "1.0"
+
+[dev-dependencies]
+embedded-hal-mock = { version = "0.11.1", features = ["eh1", "embedded-hal-async"] }
+tokio = { version = "1.44", features = ["rt", "macros"] }
+
+[features]
+default = []
+async = ["dep:embedded-hal-async"]  # This feature only enables async I2C support
+log = ["dep:log"]
+defmt = ["dep:defmt"]
+
+[lib]
+name = "tf_luna"
+test = true  # Enable testing with std
+
+# Coverage configuration
+[package.metadata.coverage.run]
+include-ffi = false
+skip-clean = false
+
+[package.metadata.coverage.report]
+# Exclude generated files and test modules from coverage
+exclude = [
+    "*/target/*",
+    "*/tests/*",
+    "*/benches/*",
+]
+
