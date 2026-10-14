@@ -342,7 +342,7 @@ where
     /// Returns [`TfLunaError::I2c`] if there is an I²C bus error.
     pub async fn error_status(&mut self) -> Result<Error, TfLunaError<E>> {
         let raw = self.read_u16(RegAddr::ErrorLow).await?;
-        Ok(Error(raw))
+        Ok(raw.into())
     }
 
     /// Reads a complete measurement sample.
